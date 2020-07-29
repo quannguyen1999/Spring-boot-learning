@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.spring.main.exception.NotFoundException;
 import com.spring.main.models.DienVien;
 import com.spring.main.services.DienVienServices;
 @Controller
@@ -26,9 +25,6 @@ public class DienVienController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<String> themDienVien(@RequestBody DienVien dienVien){
-		
-		
-		
 		dienVienServices.themDienVien(dienVien);
 		
 		return new ResponseEntity<String>(HttpStatus.OK);
@@ -38,7 +34,7 @@ public class DienVienController {
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<DienVien>> danhSachDienVien(HttpServletRequest request){
 		
-		throw new NotFoundException("reaction không được null");
+		return new ResponseEntity<List<DienVien>>(dienVienServices.findAll(),HttpStatus.OK);
 		
 	}
 
