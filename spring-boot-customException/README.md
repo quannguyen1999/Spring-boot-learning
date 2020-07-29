@@ -77,7 +77,8 @@ public class ErrorResponse {
 
 ##### NotFoundException
 +Là class mình tự định nghĩa khi có lỗi gì, nó sẽ quăng vào đây
-+Bạn muốn đặt tên class gì cũng được miễn là phải có ```java
++Bạn muốn đặt tên class gì cũng được miễn là phải có 
+
 ```java
 @ResponseStatus(HttpStatus.(kiểu bạn định nghĩa))
 @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -87,6 +88,7 @@ public class NotFoundException extends RuntimeException{
 		super(exception);
 	}
 }
+```
 
 
 #### CustomExceptionHandler 
