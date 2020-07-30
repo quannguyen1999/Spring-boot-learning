@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.spring.main.exceptions.BadRequestException;
 import com.spring.main.exceptions.NotFoundException;
 import com.spring.main.models.DienVien;
 import com.spring.main.services.DienVienServices;
@@ -42,6 +43,16 @@ public class DienVienController {
 		throw new NotFoundException("reaction không được null");
 		
 	}
+	
+	@GetMapping(value = "/testBadRequest")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<List<DienVien>> testBadRequest(HttpServletRequest request){
+		
+		//demo thử
+		throw new BadRequestException("reaction không được null");
+		
+	}
+	
 
 	
 }
