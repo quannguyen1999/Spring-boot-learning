@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+<!-- khai báo xmlns:th="http://www.thymeleaf.org" để dùng tag -->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<link rel="icon" href="http://example.com/favicon.png">
-
+<!-- link truy cập file css -->
 <link th:href="@{/css/error.css}" rel="stylesheet" />
 
+<!-- link truy cập file js -->
 <script src="@{/css/error.js}" />
 
 <link
@@ -20,6 +21,7 @@
 <body>
 	<div class="container">
 		<div class="error">
+			<!-- errorPage được thiết lập trong CustomExceptionHandler -->
 			<h1><td th:text="${errorPage}">Id</td></h1>
 			<br/>
 			<p>@copyright quân niki :((</p>

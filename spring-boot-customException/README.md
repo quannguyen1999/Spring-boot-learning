@@ -1,173 +1,67 @@
-:leaves: Error handling :leaves:
 
-### Yêu cầu 
-- Biết về spring core  :thumbsup:
-- Biết về spring data mongodb :thumbsup:
-- Biết về restfull api :thumbsup:
-- Biết về spring boot :thumbsup:
-- Biết về lombok :thumbsup:
+### :smiling_imp: Advanced :smiling_imp:
+Xử lý phần view cho client
+Như ở server bạn có thể truy cập để xem các lỗi thông tin trong json 
+Nhưng ở client bạn cần phải hiển thị view giao diện các lỗi cơ bản như 404, 500
 
-## Error Handling
+###### B1 
+khai báo maven (này để sử dụng các tag th)
 
-Trả về lỗi Json theo ý muốn của mình 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		
+###### B2 
+sau đó ở resources/templates 
+tạo file error.html
 
-Ở đây có 5 package chính 
+Ở resources/static 
+tạo 2 folder js (error.js), css(error.css)
 
-Mình chỉ nói sơ lược các package đã học còn package exceptions mình sẽ giải thích kỹ hơn
+###### B3 
+Mình thêm 1 exception mới là BadRequestException trả về BadRequest (400)
 
-### Entity models
-
-- Là các đối tượng
-
-vd: Đối tượng DienVien có thuộc tính tenDV
-
-- Khi muốn ánh xạ các đối tượng này xuống dữ liệu ta phải khai báo - annotation:@Document
-
-- Tạo tự động getter,setter,constructor thông qua lombok @Data
-
-    
-        @Data
-        @Document
-        public class DienVien {
-        	@Id
-        	private ObjectId idDV;
-        	
-        	private String tenDV;
-        }
-
-### Repositorys 
-
-- Nó đảm nhận các đối tượng cũng như là ID và thuộc tính của đối tượng đó
-
-- Thực hiện các Query 
-
-- Các chức năng có sẵn CRUD
-    
-### Services
-
-Sẽ có DienVienService 
-- controller sẽ gọi thông qua interface này
-
-DienVienServiceImpl 
-- Sẽ implement interface DienVienService 
-- Và tiêm DienVienRepository để thực hiện các chức năng có sẵn
- 
-### Controllers
-Nơi map đường dẫn request tới các @RequestMapping này
-
-### Exceptions
-Nơi xử lý và trả về các lỗi theo mong muốn của mình
-
-#### Ở đây mình khai báo 3 class :
-
-#### ErrorResponse 
-
-+Bao gồm các thuộc tính là message, và details
+###### B4 
++Tạo một class CustomErrorController 
++Khi có lỗi status loại nào thì nó sẽ set thuộc tính trong errorPage và trả qua cho người dùng qua error.html
++Lưu ý là khi bạn dùng postman thì nó vẫn trả file Json 
++Còn khi truy cập qua các trang web như chrome, cốc cốc,... thì trả về view giao diện cho người dùng
 
 ```java
-@XmlRootElement(name = "error")
-public class ErrorResponse {
-	//tên lỗi
-    private String message;
- 
-    //lỗi cụ thể (như id)
-    private List<String> details;
-}
-```
+Controller
+@RequestMapping
+public class CustomErrorController implements ErrorController{
 
-##### NotFoundException
-+Là class mình tự định nghĩa khi có lỗi gì, nó sẽ quăng vào đây
-+Bạn muốn đặt tên class gì cũng được miễn là phải có 
+	@RequestMapping("/error")
+	public ModelAndView handleError(HttpServletRequest request,HttpServletResponse response) {
+		
+		ModelAndView modelAndView = new ModelAndView();
+		
+		if(response.getStatus() == HttpStatus.BAD_REQUEST.value()) {
+			request.setAttribute("errorPage","400");
+		}
+		else if(response.getStatus() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+			request.setAttribute("errorPage","500");
+		}
+		else {
+			request.setAttribute("errorPage","404");
+		}
+		
+		modelAndView.setViewName("error");
+		
+		return modelAndView;
+	}
 
-```java
-@ResponseStatus(HttpStatus.(kiểu bạn định nghĩa))
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class NotFoundException extends RuntimeException{
-
-	public  NotFoundException(String exception) {
-		super(exception);
+	@Override
+	public String getErrorPath() {
+		return "/error";
 	}
 }
 ```
 
 
-#### CustomExceptionHandler 
-+Là nơi trả về Json của bạn và status 
-
-+Có 3 kiểu 
-
-+1 là lỗi server 
-
-+2 là lỗi trong class NotFoundException
-
-+3 là lỗi trong validator model
 
 
-    @SuppressWarnings({"unchecked","rawtypes"})
-    @ControllerAdvice(basePackageClasses = {DienVienController.class})
-    public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
-    	
-    	@ExceptionHandler(Exception.class)
-    	@ResponseBody
-    	public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-    		
-    		List<String> details = new ArrayList<>();
-    		
-    		details.add(ex.getLocalizedMessage());
-    		
-    		ErrorResponse error = new ErrorResponse("Server Error", details);
-    		
-    		return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    	}
-    
-    	@ExceptionHandler(NotFoundException.class)
-    	@ResponseBody
-    	public final ResponseEntity<Object> handleUserNotFoundException(NotFoundException ex, WebRequest request) {
-    		List<String> details = new ArrayList<>();
-    		
-    		details.add(ex.getLocalizedMessage());
-    		
-    		ErrorResponse error = new ErrorResponse("Record Not Found", details);
-    		
-    		return new ResponseEntity(error, HttpStatus.NOT_FOUND);
-    		
-    	}
-    
-    
-    	@Override
-    	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-    		List<String> details = new ArrayList<>();
-    		
-    		for(ObjectError error : ex.getBindingResult().getAllErrors()) {
-    			
-    			details.add(error.getDefaultMessage());
-    			
-    		}
-    		
-    		ErrorResponse error = new ErrorResponse("Validation Failed", details);
-    		
-    		return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
-    	}
-    }
-- Còn local sẽ chạy mặc định trên 8080
-
-- Sau đó bạn dùng postman để test chương trình nó sẽ hiễn thị các lỗi như là 
-
-ví dụ 
-`{
-    "message": "Validation Failed",
-    "details": [
-        "nickName không được rỗng"
-    ]
-}`
-
-hoặc 
-
-HTTP Status : 404
-` 
-{
-    "message": "Record Not Found",
-    "details": [
-        "Invalid employee id : 23"
-    ]
-}`
+		
+		

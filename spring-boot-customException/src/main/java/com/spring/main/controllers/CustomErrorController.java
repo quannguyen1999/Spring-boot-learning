@@ -12,8 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping
 public class CustomErrorController implements ErrorController{
 
-	// ...
-
 	@RequestMapping("/error")
 	public ModelAndView handleError(HttpServletRequest request,HttpServletResponse response) {
 		
