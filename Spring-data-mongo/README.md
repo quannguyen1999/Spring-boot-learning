@@ -1,6 +1,6 @@
 # :leaves:  Spring Data - mongodb :leaves:
 
-### Yêu cầu :tw-270b:
+### Yêu cầu
 - Biết về spring core  :thumbsup:
 - Biết về restfull api :thumbsup:
 - Biết về spring boot :thumbsup:
@@ -10,17 +10,31 @@
 
 - Hỗ trợ kết nối database như là mongodb,sqlserver,mysql,...
 
-- Giảm thiểu được số lượng code đáng kể (boilderplate code) như thêm,xóa,sửa,...(tất cả đã được viết sẵn)
+- Giảm thiểu được số lượng code đáng kể 
 
-- Để sử dụng các chức năng CRUD, mình chỉ cần extends các abstraction của Repository trong spring data là xong :)
+- Như Các chức năng như thêm,xóa,sửa,...tất cả đã được viết sẵn nên hạn chế được boilderplate (code lặp lại)
+
+- Để sử dụng các chức năng CRUD, mình chỉ cần extends các abstraction của Repository
+
+## Maven
+```xml
+<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-mongodb</artifactId>
+</dependency>
+```
+
+### Có 4 package chính 
+1. models
+2. repositorys
+3. services
+4. controllers
 
 ### Entity model
 
 - Là các đối tượng
 
-vd: Đối tượng DienVien có thuộc tính tenDV
-
-- Khi muốn ánh xạ các đối tượng này xuống dữ liệu ta phải khai báo - annotation:@Document
+- Khi muốn ánh xạ các đối tượng này xuống dữ liệu ta phải khai báo - annotation : @Document
 
 - Tạo tự động getter,setter,constructor thông qua lombok @Data
 
@@ -36,11 +50,11 @@ vd: Đối tượng DienVien có thuộc tính tenDV
 
 ### Repository 
 
-- Nó đảm nhận các đối tượng cũng như là ID và thuộc tính của đối tượng đó
+- Nó đảm nhận các đối tượng, ID
 
-- Như CrudReposity dành cho mongodb nó đã có sẵn chức năng CRUD ta chỉ cần extends class đó thôi 
+- Như trong mongodb nó đã có sẵn chức năng CRUD ta chỉ cần extends Repository
 
-vd 
+Cấu trúc chung cho các đối tượng 
 
     public interface CrudRepository<T, ID> extends Repository<T, ID> {
       
@@ -64,15 +78,19 @@ vd
 
 ==>ngoài ra còn có JpaRepository, MongoRepository nó extends từ CrudRepository
 
-vd như trong class Person ta có thuộc tính id chính là kiểu Long 
+Như trong class DienVien ta có thuộc tính id chính là kiểu Long 
 
-thì ta sẽ viết thế này 
-interface PersonRepository extends Repository<Person, Long> { … }
+Thì ta sẽ viết thế này 
+```java
+interface DienVienRepository extends Repository<DienVien, Long> { … }
+```
 
-còn nếu là kiểu String 
-interface PersonRepository extends Repository<Person, String> { … }
+Còn nếu là kiểu String 
+```java
+interface DienVienRepository extends Repository<DienVien, String> { … }
+```
 
-ở trong DienVienRepository sẽ có 
+Trong DienVienRepository có ObjectId là id chính nên ta sẽ có :
 
     @Repository
     public interface DienVienRepository extends MongoRepository<DienVien, ObjectId>{
@@ -97,7 +115,7 @@ interface PersonRepository extends Repository<Person, String> { … }
 ### Service
 
 Sẽ có DienVienService 
-- controller sẽ gọi thông qua interface này
+- Controller sẽ gọi thông qua interface này
 
 DienVienServiceImpl 
 - Sẽ implement interface DienVienService 
@@ -105,14 +123,7 @@ DienVienServiceImpl
  
 ### Controller
 
-
-=> ok :mag_right: Đó là những chức năng cơ bản mà mình đã liệt kê ở trên 
-=>Mình sẽ chia package ra làm 4 loại như giải thích ở trên
-
-2. models
-3. repositorys
-4. services
-5. controllers
+Sẽ đảm nhận thực hiện các request yêu cầu bên phía client
 
 - Còn local sẽ chạy mặc định trên 8080
 
