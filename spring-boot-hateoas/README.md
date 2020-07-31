@@ -16,11 +16,11 @@
 		</dependency>
 
 ## Spring hateoas
-+Tạo model với cùng với các link đính kèm như thêm, xóa, tìm kiếm 
-+Client có thể tự động điều hướng đến tài nguyên phù hợp bằng cách
- duyệt qua các liên kết hypermedia
-+Nó tương tự như một người dùng web điều hướng qua các trang web bằng
-cách nhấp vào các link thích hợp để chuyển đến nội dung mong muốn
+- Tạo model với cùng với các link đính kèm như thêm, xóa, tìm kiếm
+- Client có thể tự động điều hướng đến tài nguyên phù hợp bằng cách
+duyệt qua các liên kết hypermedia
+- Nó tương tự như một người dùng web điều hướng qua các trang web bằng
+- cách nhấp vào các link thích hợp để chuyển đến nội dung mong muốn
 
 VÍ dự khi bạn truy cập một file student
 
