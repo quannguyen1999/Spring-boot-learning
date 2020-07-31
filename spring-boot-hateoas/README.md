@@ -1,6 +1,6 @@
 # :leaves:  Spring hateoas :leaves:
 
-### Yêu cầu :tw-270b:
+### Yêu cầu
 - Biết về spring core  :thumbsup:
 - Biết về restfull api :thumbsup:
 - Biết về spring boot :thumbsup:
@@ -67,16 +67,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 ```
 
-	@GetMapping(value = "/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Customer> chiTietKhachHang(@PathVariable("id") String id){
-		
-		return new ResponseEntity<Customer>(customerService.findCustomerById(id),HttpStatus.OK);
-
-	}
-```
-	
-	
 	@GetMapping(value = "/orders/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<Order>> danhSachOrderQuaId(@PathVariable("id") String id){
@@ -85,11 +75,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 	}
 
+	
 
-
-@GetMapping
-@ResponseStatus(HttpStatus.OK)
-public List<Customer> danhSachCustomer(HttpServletRequest request){
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public List<Customer> danhSachCustomer(HttpServletRequest request){
 
 		List<Customer> listCustomerFromDB=customerService.danhSachCustomer();
 		
@@ -115,8 +105,7 @@ public List<Customer> danhSachCustomer(HttpServletRequest request){
 		return listCustomerFromDB;
 
 	}
-	
-```
+
 ##### B3:Sau đó bạn truy cập http://localhost:8080/api/customers
 
 sẽ có các thông tin
