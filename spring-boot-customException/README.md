@@ -13,15 +13,13 @@ Trả về lỗi Json theo ý muốn của mình
 
 Ở đây có 5 package chính 
 
-Mình chỉ nói sơ lược các package đã học còn package exceptions mình sẽ giải thích kỹ hơn
+Mình chỉ nói sơ lược các package đã học, còn package exceptions sẽ giải thích kỹ hơn
 
 ### Entity models
 
 - Là các đối tượng
 
-vd: Đối tượng DienVien có thuộc tính tenDV
-
-- Khi muốn ánh xạ các đối tượng này xuống dữ liệu ta phải khai báo - annotation:@Document
+- Khi muốn ánh xạ các đối tượng này xuống dữ liệu ta phải khai báo - annotation: @Document
 
 - Tạo tự động getter,setter,constructor thông qua lombok @Data
 
@@ -37,8 +35,6 @@ vd: Đối tượng DienVien có thuộc tính tenDV
 
 ### Repositorys 
 
-- Nó đảm nhận các đối tượng cũng như là ID và thuộc tính của đối tượng đó
-
 - Thực hiện các Query 
 
 - Các chức năng có sẵn CRUD
@@ -46,21 +42,20 @@ vd: Đối tượng DienVien có thuộc tính tenDV
 ### Services
 
 Sẽ có DienVienService 
-- controller sẽ gọi thông qua interface này
+- Controller sẽ gọi thông qua interface này
 
 DienVienServiceImpl 
-- Sẽ implement interface DienVienService 
-- Và tiêm DienVienRepository để thực hiện các chức năng có sẵn
+- Thực hiện các chức năng và extends từ DienVienService
  
 ### Controllers
-Nơi map đường dẫn request tới các @RequestMapping này
+Nơi xử lý các yêu cầu từ phía client
 
 ### Exceptions
 Nơi xử lý và trả về các lỗi theo mong muốn của mình
 
 #### Ở đây mình khai báo 3 class :
 
-#### ErrorResponse 
+#### Class ErrorResponse 
 
 +Bao gồm các thuộc tính là message, và details
 
@@ -75,12 +70,12 @@ public class ErrorResponse {
 }
 ```
 
-##### NotFoundException
+#### Class NotFoundException
 +Là class mình tự định nghĩa khi có lỗi gì, nó sẽ quăng vào đây
-+Bạn muốn đặt tên class gì cũng được miễn là phải có 
++Bạn muốn đặt tên class gì cũng được miễn là phải có @ResponseStatus(HttpStatus.(kiểu bạn định nghĩa))
 
 ```java
-@ResponseStatus(HttpStatus.(kiểu bạn định nghĩa))
+
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class NotFoundException extends RuntimeException{
 
@@ -154,20 +149,24 @@ public class NotFoundException extends RuntimeException{
 - Sau đó bạn dùng postman để test chương trình nó sẽ hiễn thị các lỗi như là 
 
 ví dụ 
-`{
+```json
+{
     "message": "Validation Failed",
     "details": [
         "nickName không được rỗng"
     ]
-}`
+}
+```
 
 hoặc 
 
 HTTP Status : 404
-` 
+
+```json
 {
     "message": "Record Not Found",
     "details": [
         "Invalid employee id : 23"
     ]
-}`
+}
+```
