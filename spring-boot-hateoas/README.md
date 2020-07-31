@@ -7,13 +7,15 @@
 - Biết về lombok :thumbsup:
 - Biết về spring data :thumbsup:
 - Biết về customerException :thumbsup:
+
 ## Maven
 <!-- spring hateous -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
-## Spring hateoas (Hypermedia as the engine of application stat)
+
+## Spring hateoas
 +Tạo model với cùng với các link đính kèm như thêm, xóa, tìm kiếm 
 +Client có thể tự động điều hướng đến tài nguyên phù hợp bằng cách
  duyệt qua các liên kết hypermedia
@@ -23,9 +25,8 @@ cách nhấp vào các link thích hợp để chuyển đến nội dung mong m
 VÍ dự khi bạn truy cập một file student
 
 Ngoài Student profile nó sẽ các thông tin đính kèm như:
-- Links to Edit and Delete Student details
-- Links to see details of other students
-- Link to see details of the courses and grades of the student
+- Đường link sửa profile, chi tiết thông tin profiles
+- Các chi tiết thông tin khóa học, điểm,...
 
 ## Cách sử dụng
 ##### B1:Ở các model bạn extends RepresentationModel<T> để add các link vào
@@ -109,7 +110,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 ##### B3:Sau đó bạn truy cập http://localhost:8080/api/customers
 
 sẽ có các thông tin
-`[
+```json
+[
     {
         "customerId": {
             "timestamp": 1596117739,
@@ -128,5 +130,5 @@ sẽ có các thông tin
             }
         ]
     }
- ]`
- 
+ ]
+```
