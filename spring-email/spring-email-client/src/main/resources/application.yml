@@ -1,0 +1,10 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /email-client
+  error:
+    include-message: always
+
+feign-client:
+  email-service:
+    url: http://localhost:8089/email-service/

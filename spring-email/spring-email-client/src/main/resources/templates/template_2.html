@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <style>
+	.details {
+		border-bottom: 1px dashed;
+		padding-bottom: 10px;
+	}
+	
+	.content {
+		background-color: #c8cace;
+		padding: 15px 80px 15px 80px;
+		border-radius: 45px;
+	}
+	
+	ul,
+	li {
+		list-style-type: none;
+		margin: 0;
+		padding: 2px;
+	}
+	
+	.container {
+		padding: 10px;
+	}
+	
+	.container-fr {
+		font-family: Calibri, Helvetica, sans-serif;
+		font-size: 11pt;
+		padding: 10px;
+	}
+	
+	.salutaion {
+		margin: 3px auto;
+	}
+
+    </style>
+</head>
+
+<body>
+<div class='container'>
+    <div th:text="'Hi ' + ${dear} + ','"></div>
+    <p>link to complete your action</p>
+    <div class='content'><span class='details'> <i>Details of email template 2</i> </span>
+        <p>
+        <ul>
+            <li th:text="' Problem Summary : ' + ${problem_summary}"></li>
+
+        </ul>
+        </p>
+    </div>
+    <p>Please do not reply to this message.</p>
+    <p class='salutaion'>Best Regards,</p> <span>Team</span>
+    <footer>
+        <p><b>CONFIDENTIALITY:</b> This e-mail and any attachments are confidential and may be privileged. If you are
+            not a named recipient</p>
+    </footer>
+</div>
+</body>
+</html>

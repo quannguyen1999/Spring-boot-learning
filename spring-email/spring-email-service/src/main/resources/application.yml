@@ -1,0 +1,23 @@
+spring:
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    port: 587
+    username: phatxitxaydung@gmail.com
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        debug: false
+    protocol: smtp
+    test-connection: false
+
+server:
+  port: 8089
+  servlet:
+    context-path: /email-service
+  error:
+    include-message: always
