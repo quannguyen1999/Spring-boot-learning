@@ -14,7 +14,6 @@ public class CustomerWriter implements ItemWriter<Customers> {
     @Autowired
     private CustomerRepository customerRepository;
 
-
     @Override
     public void write(List<? extends Customers> list) throws Exception {
         System.out.println(list.size());

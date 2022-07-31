@@ -1,5 +1,6 @@
 package com.example.springbatch.model;
 
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -10,37 +11,31 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+@ToString
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@ToString
-@Table(name = "customers")
-@XStreamAlias("customers")
-public class Customers implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+@Table(name = "tutorials")
+@XStreamAlias("tutorials")
+public class Tutorials implements Serializable {
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    @XStreamAlias("id")
-    private Integer id;
+    @XStreamAlias("tutorial_id")
+    private Integer tutorialId;
 
-    private String firstName;
+    @XStreamAlias("tutorial_author")
+    private String tutorialAuthor;
 
-    private String lastName;
+    @XStreamAlias("tutorial_title")
+    private String tutorialTitle;
 
-    private String email;
+    @XStreamAlias("submission_date")
+    private String submissionDate;
 
-    private String gender;
-
-    private String contactNo;
-
-    private String country;
-
-    private String dob;
-
+    @XStreamAlias("tutorial_icon")
+    private String tutorialIcon;
 
 }
